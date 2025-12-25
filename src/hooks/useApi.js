@@ -24,7 +24,7 @@ export function useApi() {
       } catch (err) {
         const message = getErrorMessage(err);
         setError(message);
-        throw err; // allow caller to handle if needed
+        throw err;
       } finally {
         setLoading(false);
       }
