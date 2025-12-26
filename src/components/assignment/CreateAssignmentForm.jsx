@@ -3,13 +3,14 @@ import InputField from "../form/InputField";
 import { useApi } from "../../hooks/useApi";
 import ASSIGNMENT_ENDPOINTS from "../../api/endpoints/assignment.endpoints";
 
-const CreateAssignmentForm = ({ onSuccess, onClose }) => {
+const CreateAssignmentForm = ({ onSuccess, onClose, initialData = null }) => {
   const { callApi, loading } = useApi();
+  const isEdit = Boolean(initialData);
 
   const [form, setForm] = useState({
-    title: "",
-    description: "",
-    due_date: "",
+    title: initialData?.title || "",
+    description: initialData?.description || "",
+    due_date: initialData?.due_date?.slice(0, 10) || "",
   });
 
   const [errors, setErrors] = useState({});
@@ -35,17 +36,27 @@ const CreateAssignmentForm = ({ onSuccess, onClose }) => {
 
     try {
       await callApi({
-        url: ASSIGNMENT_ENDPOINTS.CREATE,
-        method: "post",
+        url: isEdit
+          ? ASSIGNMENT_ENDPOINTS.UPDATE(initialData._id)
+          : ASSIGNMENT_ENDPOINTS.CREATE,
+        method: isEdit ? "patch" : "post",
         body: form,
       });
 
       onSuccess?.();
       onClose();
     } catch (err) {
-      console.error("Create assignment error:", err);
+      console.error("Assignment submit error:", err);
     }
   };
+
+  const buttonText = loading
+    ? isEdit
+      ? "Updating..."
+      : "Creating..."
+    : isEdit
+    ? "Update"
+    : "Create";
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -99,7 +110,7 @@ const CreateAssignmentForm = ({ onSuccess, onClose }) => {
           disabled={loading}
           className="px-4 py-2 text-sm bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
         >
-          {loading ? "Creating..." : "Create"}
+          {buttonText}
         </button>
       </div>
     </form>

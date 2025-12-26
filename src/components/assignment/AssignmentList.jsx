@@ -2,12 +2,19 @@ import { useEffect, useState } from "react";
 import AssignmentCard from "./AssignmentCard";
 import { useApi } from "../../hooks/useApi";
 import ASSIGNMENT_ENDPOINTS from "../../api/endpoints/assignment.endpoints";
+import Modal from "../modal/Modal";
+import CreateAssignmentForm from "./CreateAssignmentForm";
+import ConfirmModal from "../common/ConfirmModal";
 
 const AssignmentList = () => {
   const { callApi, loading } = useApi();
   const [assignments, setAssignments] = useState([]);
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState(null);
+  const [selected, setSelected] = useState(null);
+  const [editOpen, setEditOpen] = useState(false);
+  const [publishOpen, setPublishOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
 
   const fetchAssignments = async (pageNo = 1) => {
     try {
@@ -20,6 +27,34 @@ const AssignmentList = () => {
       setPagination(res.pagination);
     } catch (err) {
       console.error("Fetch assignments error:", err);
+    }
+  };
+
+  const handlePublish = async () => {
+    try {
+      await callApi({
+        url: ASSIGNMENT_ENDPOINTS.PUBLISH(selected._id),
+        method: "patch",
+      });
+
+      setPublishOpen(false);
+      fetchAssignments(page);
+    } catch (err) {
+      console.error("Publish error:", err);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await callApi({
+        url: ASSIGNMENT_ENDPOINTS.DELETE(selected._id),
+        method: "delete",
+      });
+
+      setDeleteOpen(false);
+      fetchAssignments(page);
+    } catch (err) {
+      console.error("Delete error:", err);
     }
   };
 
@@ -45,10 +80,18 @@ const AssignmentList = () => {
         <AssignmentCard
           key={assignment._id}
           assignment={assignment}
-          onPublish={(a) => console.log("Publish assignment", a._id)}
-          onEdit={(a) => console.log("Edit assignment", a._id)}
-          onDelete={(a) => console.log("Delete assignment", a._id)}
-          onSubmit={(a) => console.log("Submit assignment", a._id)}
+          onEdit={(a) => {
+            setSelected(a);
+            setEditOpen(true);
+          }}
+          onPublish={(a) => {
+            setSelected(a);
+            setPublishOpen(true);
+          }}
+          onDelete={(a) => {
+            setSelected(a);
+            setDeleteOpen(true);
+          }}
         />
       ))}
 
@@ -75,6 +118,36 @@ const AssignmentList = () => {
           </button>
         </div>
       )}
+      <Modal
+        isOpen={editOpen}
+        onClose={() => setEditOpen(false)}
+        title="Edit Assignment"
+        width="max-w-xl"
+      >
+        <CreateAssignmentForm
+          initialData={selected}
+          onClose={() => setEditOpen(false)}
+          onSuccess={() => fetchAssignments(page)}
+        />
+      </Modal>
+
+      <ConfirmModal
+        isOpen={publishOpen}
+        title="Publish Assignment"
+        message="Once published, you cannot edit this assignment. Continue?"
+        confirmText="Publish"
+        onClose={() => setPublishOpen(false)}
+        onConfirm={handlePublish}
+      />
+
+      <ConfirmModal
+        isOpen={deleteOpen}
+        title="Delete Assignment"
+        message="This action cannot be undone. Delete this assignment?"
+        confirmText="Delete"
+        onClose={() => setDeleteOpen(false)}
+        onConfirm={handleDelete}
+      />
     </div>
   );
 };
