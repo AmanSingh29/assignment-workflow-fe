@@ -27,6 +27,18 @@ const AssignmentList = () => {
     fetchAssignments(page);
   }, [page]);
 
+  if (loading)
+    return (
+      <p className="text-center text-sm text-gray-500">
+        Loading assignments...
+      </p>
+    );
+
+  if (!assignments?.length)
+    return (
+      <p className="text-center text-sm text-gray-500">No Assignments Found</p>
+    );
+
   return (
     <div className="space-y-4">
       {assignments.map((assignment) => (
@@ -62,12 +74,6 @@ const AssignmentList = () => {
             Next
           </button>
         </div>
-      )}
-
-      {loading && (
-        <p className="text-center text-sm text-gray-500">
-          Loading assignments...
-        </p>
       )}
     </div>
   );
