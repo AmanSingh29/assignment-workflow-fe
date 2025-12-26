@@ -67,10 +67,10 @@ const AssignmentDetails = () => {
     );
 
   return (
-    <div className="p-6 max-w-4xl mx-auto space-y-6">
+    <div className="p-6 max-w-7xl mx-auto space-y-6">
       <AssignmentCard assignment={assignment} showActions={false} />
 
-      <div>
+      <div className="max-w-4xl mx-auto">
         <h2 className="text-lg font-semibold text-gray-800 mb-4">
           Submissions ({submissions.length})
         </h2>

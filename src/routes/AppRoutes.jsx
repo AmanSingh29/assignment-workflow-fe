@@ -19,7 +19,7 @@ const AppRoutes = () => {
         <Route path="/assignment/:id" element={<AssignmentDetails />} />
 
         <Route element={<RoleRoute allowedRoles={["student"]} />}>
-          <Route path="/mysubmission" element={<MySubmission />} />
+          <Route path="/my-submission" element={<MySubmission />} />
         </Route>
       </Route>
     </Routes>
