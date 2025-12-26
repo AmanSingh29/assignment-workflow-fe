@@ -3,6 +3,7 @@ import { Plus } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import Modal from "../components/modal/Modal";
 import CreateAssignmentForm from "../components/assignment/CreateAssignmentForm";
+import AssignmentList from "../components/assignment/AssignmentList";
 
 const Home = () => {
   const { user } = useAuth();
@@ -26,7 +27,7 @@ const Home = () => {
         )}
       </div>
 
-      <div className="text-gray-600">Assignment list will come here...</div>
+      <AssignmentList />
 
       <Modal
         isOpen={open}
