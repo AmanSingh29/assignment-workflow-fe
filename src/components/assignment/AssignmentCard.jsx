@@ -50,7 +50,7 @@ const AssignmentCard = ({
         {isStudent && assignment.status === "published" && (
           <button
             onClick={() => onSubmit?.(assignment)}
-            className="flex items-center gap-2 px-3 py-1.5 text-sm bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+            className="flex items-center cursor-pointer gap-2 px-3 py-1.5 text-sm bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
           >
             <Upload size={16} />
             Submit Answer

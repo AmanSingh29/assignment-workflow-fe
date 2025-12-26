@@ -5,6 +5,7 @@ import ASSIGNMENT_ENDPOINTS from "../../api/endpoints/assignment.endpoints";
 import Modal from "../modal/Modal";
 import CreateAssignmentForm from "./CreateAssignmentForm";
 import ConfirmModal from "../common/ConfirmModal";
+import SubmitAssignmentForm from "./SubmitAssignmentForm";
 
 const AssignmentList = () => {
   const { callApi, loading } = useApi();
@@ -15,6 +16,7 @@ const AssignmentList = () => {
   const [editOpen, setEditOpen] = useState(false);
   const [publishOpen, setPublishOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const [submitOpen, setSubmitOpen] = useState(false);
 
   const fetchAssignments = async (pageNo = 1) => {
     try {
@@ -92,6 +94,10 @@ const AssignmentList = () => {
             setSelected(a);
             setDeleteOpen(true);
           }}
+          onSubmit={(a) => {
+            setSelected(a);
+            setSubmitOpen(true);
+          }}
         />
       ))}
 
@@ -129,6 +135,23 @@ const AssignmentList = () => {
           onClose={() => setEditOpen(false)}
           onSuccess={() => fetchAssignments(page)}
         />
+      </Modal>
+
+      <Modal
+        isOpen={submitOpen}
+        onClose={() => setSubmitOpen(false)}
+        title="Submit Assignment"
+        width="max-w-xl"
+      >
+        {selected && (
+          <SubmitAssignmentForm
+            assignment={selected}
+            onClose={() => setSubmitOpen(false)}
+            onSuccess={() => {
+              // later: refresh list / show success toast
+            }}
+          />
+        )}
       </Modal>
 
       <ConfirmModal
