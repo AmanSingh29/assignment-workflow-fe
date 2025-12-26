@@ -37,9 +37,6 @@ const SubmitAssignmentForm = ({ assignment, onClose, onSuccess }) => {
         <h3 className="text-sm font-semibold text-gray-800 mb-1">
           {assignment.title}
         </h3>
-
-        <p className="text-sm text-gray-600 mb-2">{assignment.description}</p>
-
         <div className="flex items-center gap-1 text-xs text-gray-500">
           <Calendar size={14} />
           Due: {formatDate(assignment.due_date)}

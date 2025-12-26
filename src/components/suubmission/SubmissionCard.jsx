@@ -5,7 +5,6 @@ import { useAuth } from "../../context/AuthContext";
 const SubmissionCard = ({ submission, onMarkReviewed, showActions = true }) => {
   const { user } = useAuth();
   const isTeacher = user?.role === "teacher";
-  const isStudent = user?.role === "student";
 
   const reviewed = submission.reviewed;
 
@@ -58,7 +57,7 @@ const SubmissionCard = ({ submission, onMarkReviewed, showActions = true }) => {
         <div className="flex justify-end">
           <button
             onClick={() => onMarkReviewed?.(submission)}
-            className="px-4 py-2 text-sm bg-green-600 text-white rounded-md hover:bg-green-700"
+            className="px-4 py-2 cursor-pointer text-sm bg-green-600 text-white rounded-md hover:bg-green-700"
           >
             Mark as Reviewed
           </button>

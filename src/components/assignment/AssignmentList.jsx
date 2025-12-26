@@ -106,7 +106,7 @@ const AssignmentList = () => {
           <button
             disabled={page === 1}
             onClick={() => setPage(page - 1)}
-            className="px-3 py-1 border rounded-md disabled:opacity-50"
+            className="px-3 py-1 border cursor-pointer rounded-md disabled:opacity-50"
           >
             Prev
           </button>
@@ -118,7 +118,7 @@ const AssignmentList = () => {
           <button
             disabled={page === pagination.totalPages}
             onClick={() => setPage(page + 1)}
-            className="px-3 py-1 border rounded-md disabled:opacity-50"
+            className="px-3 py-1 cursor-pointer border rounded-md disabled:opacity-50"
           >
             Next
           </button>

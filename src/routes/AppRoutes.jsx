@@ -16,9 +16,7 @@ const AppRoutes = () => {
       <Route element={<ProtectedRoute />}>
         <Route path="/" element={<Home />} />
 
-        <Route element={<RoleRoute allowedRoles={["teacher"]} />}>
-          <Route path="/assignment/:id" element={<AssignmentDetails />} />
-        </Route>
+        <Route path="/assignment/:id" element={<AssignmentDetails />} />
 
         <Route element={<RoleRoute allowedRoles={["student"]} />}>
           <Route path="/mysubmission" element={<MySubmission />} />

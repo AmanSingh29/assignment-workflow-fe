@@ -22,6 +22,7 @@ const AssignmentCard = ({
 
   const isTeacher = user.role === "teacher";
   const isStudent = user.role === "student";
+  const hasSubmitted = assignment.hasSubmitted === true;
 
   const submissionCount = assignment.submissionCount ?? 0;
 
@@ -68,13 +69,25 @@ const AssignmentCard = ({
       {showActions && (
         <div className="flex items-center justify-end gap-3">
           {isStudent && assignment.status === "published" && (
-            <button
-              onClick={() => onSubmit?.(assignment)}
-              className="flex items-center cursor-pointer gap-2 px-3 py-1.5 text-sm bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
-            >
-              <Upload size={16} />
-              Submit Answer
-            </button>
+            <>
+              {!hasSubmitted ? (
+                <button
+                  onClick={() => onSubmit?.(assignment)}
+                  className="flex items-center gap-2 px-3 py-1.5 text-sm bg-indigo-600 text-white rounded-md hover:bg-indigo-700 cursor-pointer"
+                >
+                  <Upload size={16} />
+                  Submit Answer
+                </button>
+              ) : (
+                <button
+                  onClick={() => navigate(`/assignment/${assignment._id}`)}
+                  className="flex items-center gap-2 px-3 py-1.5 text-sm bg-green-50 text-green-700 border border-green-200 rounded-md hover:bg-green-100 cursor-pointer"
+                >
+                  <Upload size={16} />
+                  Submitted · View Answer
+                </button>
+              )}
+            </>
           )}
 
           {isTeacher && assignment.status === "draft" && (
