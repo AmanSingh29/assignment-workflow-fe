@@ -72,7 +72,7 @@ const SubmitAssignmentForm = ({ assignment, onClose, onSuccess }) => {
         <button
           type="button"
           onClick={onClose}
-          className="px-4 py-2 text-sm border rounded-md"
+          className="px-4 py-2 cursor-pointer text-sm border rounded-md"
         >
           Cancel
         </button>
@@ -80,7 +80,7 @@ const SubmitAssignmentForm = ({ assignment, onClose, onSuccess }) => {
         <button
           type="submit"
           disabled={loading}
-          className="px-4 py-2 text-sm bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:opacity-60"
+          className="px-4 py-2 cursor-pointer text-sm bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:opacity-60"
         >
           {loading ? "Submitting..." : "Submit"}
         </button>

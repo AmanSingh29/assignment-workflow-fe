@@ -177,53 +177,53 @@ const AssignmentList = () => {
               </button>
             </div>
           )}
-          <Modal
-            isOpen={assignmentModalOpen}
-            onClose={() => setAssignmentModalOpen(false)}
-            title={selected ? "Edit" : "Create" + "Assignment"}
-            width="max-w-xl"
-          >
-            <CreateAssignmentForm
-              initialData={selected}
-              onClose={() => setAssignmentModalOpen(false)}
-              onSuccess={() => fetchAssignments(page)}
-            />
-          </Modal>
-
-          <Modal
-            isOpen={submitOpen}
-            onClose={() => setSubmitOpen(false)}
-            title="Submit Assignment"
-            width="max-w-xl"
-          >
-            {selected && (
-              <SubmitAssignmentForm
-                assignment={selected}
-                onClose={() => setSubmitOpen(false)}
-                onSuccess={() => fetchAssignments(page)}
-              />
-            )}
-          </Modal>
-
-          <ConfirmModal
-            isOpen={publishOpen}
-            title="Publish Assignment"
-            message="Once published, you cannot edit this assignment. Continue?"
-            confirmText="Publish"
-            onClose={() => setPublishOpen(false)}
-            onConfirm={handlePublish}
-          />
-
-          <ConfirmModal
-            isOpen={deleteOpen}
-            title="Delete Assignment"
-            message="This action cannot be undone. Delete this assignment?"
-            confirmText="Delete"
-            onClose={() => setDeleteOpen(false)}
-            onConfirm={handleDelete}
-          />
         </div>
       )}
+      <Modal
+        isOpen={assignmentModalOpen}
+        onClose={() => setAssignmentModalOpen(false)}
+        title={selected ? "Edit" : "Create" + "Assignment"}
+        width="max-w-xl"
+      >
+        <CreateAssignmentForm
+          initialData={selected}
+          onClose={() => setAssignmentModalOpen(false)}
+          onSuccess={() => fetchAssignments(page)}
+        />
+      </Modal>
+
+      <Modal
+        isOpen={submitOpen}
+        onClose={() => setSubmitOpen(false)}
+        title="Submit Assignment"
+        width="max-w-xl"
+      >
+        {selected && (
+          <SubmitAssignmentForm
+            assignment={selected}
+            onClose={() => setSubmitOpen(false)}
+            onSuccess={() => fetchAssignments(page)}
+          />
+        )}
+      </Modal>
+
+      <ConfirmModal
+        isOpen={publishOpen}
+        title="Publish Assignment"
+        message="Once published, you cannot edit this assignment. Continue?"
+        confirmText="Publish"
+        onClose={() => setPublishOpen(false)}
+        onConfirm={handlePublish}
+      />
+
+      <ConfirmModal
+        isOpen={deleteOpen}
+        title="Delete Assignment"
+        message="This action cannot be undone. Delete this assignment?"
+        confirmText="Delete"
+        onClose={() => setDeleteOpen(false)}
+        onConfirm={handleDelete}
+      />
     </>
   );
 };
