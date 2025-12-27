@@ -3,6 +3,7 @@ import { Calendar } from "lucide-react";
 import { useApi } from "../../hooks/useApi";
 import { formatDate } from "../../utils/formatDate";
 import SUBMISSION_ENDPOINTS from "../../api/endpoints/submission.endpoint";
+import { showError, showSuccess } from "../../utils/toast";
 
 const SubmitAssignmentForm = ({ assignment, onClose, onSuccess }) => {
   const { callApi, loading } = useApi();
@@ -18,7 +19,7 @@ const SubmitAssignmentForm = ({ assignment, onClose, onSuccess }) => {
     }
 
     try {
-      await callApi({
+      const res = await callApi({
         url: SUBMISSION_ENDPOINTS.SUBMIT(assignment._id),
         method: "post",
         body: { answer },
@@ -26,8 +27,9 @@ const SubmitAssignmentForm = ({ assignment, onClose, onSuccess }) => {
 
       onSuccess?.();
       onClose();
+      showSuccess(res.message);
     } catch (err) {
-      console.error("Submit assignment error:", err);
+      showError(err);
     }
   };
 

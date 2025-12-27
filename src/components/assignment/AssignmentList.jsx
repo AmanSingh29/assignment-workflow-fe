@@ -10,6 +10,7 @@ import { useAuth } from "../../context/AuthContext";
 import { Plus } from "lucide-react";
 import SelectField from "../form/SelectField";
 import { useCallback } from "react";
+import { showError, showSuccess } from "../../utils/toast";
 
 const AssignmentList = () => {
   const { callApi, loading } = useApi();
@@ -36,35 +37,37 @@ const AssignmentList = () => {
       setAssignments(res.assignments);
       setPagination(res.pagination);
     } catch (err) {
-      console.error("Fetch assignments error:", err);
+      showError(err);
     }
   };
 
   const handlePublish = async () => {
     try {
-      await callApi({
+      const res = await callApi({
         url: ASSIGNMENT_ENDPOINTS.PUBLISH(selected._id),
         method: "patch",
       });
 
       setPublishOpen(false);
       fetchAssignments(page);
+      showSuccess(res.message);
     } catch (err) {
-      console.error("Publish error:", err);
+      showError(err);
     }
   };
 
   const handleDelete = async () => {
     try {
-      await callApi({
+      const res = await callApi({
         url: ASSIGNMENT_ENDPOINTS.DELETE(selected._id),
         method: "delete",
       });
 
       setDeleteOpen(false);
       fetchAssignments(page);
+      showSuccess(res.message);
     } catch (err) {
-      console.error("Delete error:", err);
+      showError(err);
     }
   };
 

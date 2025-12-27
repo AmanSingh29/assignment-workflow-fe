@@ -7,6 +7,7 @@ import { useApi } from "../../hooks/useApi";
 import { useAuth } from "../../context/AuthContext";
 import AUTH_ENDPOINTS from "../../api/endpoints/auth.endpoints";
 import { useNavigate } from "react-router-dom";
+import { showError, showSuccess } from "../../utils/toast";
 
 const roleOptions = [
   { label: "Teacher", value: "teacher" },
@@ -62,9 +63,10 @@ const AuthForm = () => {
         user: res.user,
         token: res.token,
       });
+      showSuccess(res.message);
       navigate("/");
     } catch (err) {
-      console.error("Auth error:", err);
+      showError(err);
     }
   };
 

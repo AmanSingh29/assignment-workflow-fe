@@ -6,6 +6,7 @@ import AssignmentCard from "../components/assignment/AssignmentCard";
 import SubmissionCard from "../components/suubmission/SubmissionCard";
 import ConfirmModal from "../components/common/ConfirmModal";
 import SUBMISSION_ENDPOINTS from "../api/endpoints/submission.endpoint";
+import { showError, showSuccess } from "../utils/toast";
 
 const AssignmentDetails = () => {
   const { id } = useParams();
@@ -26,7 +27,7 @@ const AssignmentDetails = () => {
         setAssignment(res.assignment);
         setSubmissions(res.submissions || []);
       } catch (err) {
-        console.error("Fetch assignment details error:", err);
+        showError(err);
       }
     };
 
@@ -35,7 +36,7 @@ const AssignmentDetails = () => {
 
   const handleMarkReviewed = async () => {
     try {
-      await callApi({
+      const res = await callApi({
         url: SUBMISSION_ENDPOINTS.MARK_REVIEWED(selectedSubmission._id),
         method: "patch",
       });
@@ -45,9 +46,10 @@ const AssignmentDetails = () => {
           s._id === selectedSubmission._id ? { ...s, reviewed: true } : s
         )
       );
+      showSuccess(res.message);
       setSubmissionOpen(false);
     } catch (err) {
-      console.error("Mark reviewed error:", err);
+      showError(err);
     }
   };
 

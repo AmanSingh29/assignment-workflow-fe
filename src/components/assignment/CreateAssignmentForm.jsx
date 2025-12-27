@@ -2,6 +2,7 @@ import { useState } from "react";
 import InputField from "../form/InputField";
 import { useApi } from "../../hooks/useApi";
 import ASSIGNMENT_ENDPOINTS from "../../api/endpoints/assignment.endpoints";
+import { showError, showSuccess } from "../../utils/toast";
 
 const CreateAssignmentForm = ({ onSuccess, onClose, initialData = null }) => {
   const { callApi, loading } = useApi();
@@ -35,7 +36,7 @@ const CreateAssignmentForm = ({ onSuccess, onClose, initialData = null }) => {
     if (!validate()) return;
 
     try {
-      await callApi({
+      const res = await callApi({
         url: isEdit
           ? ASSIGNMENT_ENDPOINTS.UPDATE(initialData._id)
           : ASSIGNMENT_ENDPOINTS.CREATE,
@@ -45,8 +46,9 @@ const CreateAssignmentForm = ({ onSuccess, onClose, initialData = null }) => {
 
       onSuccess?.();
       onClose();
+      showSuccess(res.message);
     } catch (err) {
-      console.error("Assignment submit error:", err);
+      showError(err);
     }
   };
 

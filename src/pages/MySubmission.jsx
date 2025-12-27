@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import ASSIGNMENT_ENDPOINTS from "../api/endpoints/assignment.endpoints";
 import AssignmentCard from "../components/assignment/AssignmentCard";
 import { useApi } from "../hooks/useApi";
+import { showError } from "../utils/toast";
 
 const MySubmission = () => {
   const { callApi, loading } = useApi();
@@ -19,7 +20,7 @@ const MySubmission = () => {
       setAssignments(res.assignments);
       setPagination(res.pagination);
     } catch (err) {
-      console.error("Fetch assignments error:", err);
+      showError(err);
     }
   };
 
