@@ -1,4 +1,12 @@
-import { Calendar, Edit, Trash2, Upload, Send, Users } from "lucide-react";
+import {
+  Calendar,
+  Edit,
+  Trash2,
+  Upload,
+  Send,
+  Users,
+  CheckCircle,
+} from "lucide-react";
 import { formatDate } from "../../utils/formatDate";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +24,7 @@ const AssignmentCard = ({
   onDelete,
   onSubmit,
   showActions = true,
+  onComplete,
 }) => {
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -66,7 +75,7 @@ const AssignmentCard = ({
           </button>
         )}
       </div>
-      {showActions && (
+      {showActions ? (
         <div className="flex items-center justify-end gap-3">
           {isStudent && assignment.status === "published" && (
             <>
@@ -118,6 +127,18 @@ const AssignmentCard = ({
             </>
           )}
         </div>
+      ) : (
+        <>
+          {isTeacher && assignment.status === "published" && (
+            <button
+              onClick={() => onComplete?.(assignment)}
+              className="flex items-center gap-2 px-3 py-1.5 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 cursor-pointer"
+            >
+              <CheckCircle size={16} />
+              Mark as Completed
+            </button>
+          )}
+        </>
       )}
     </div>
   );

@@ -5,6 +5,7 @@ const ASSIGNMENT_ENDPOINTS = {
   PUBLISH: (assignmentId) => `/v1/assignment/publish/${assignmentId}`,
   DELETE: (assignmentId) => `/v1/assignment/delete/${assignmentId}`,
   DETAILS: (assignmentId) => `/v1/assignment/submissions/${assignmentId}`,
+  COMPLETE: (assignmentId) => `/v1/assignment/complete/${assignmentId}`,
 };
 
 export default ASSIGNMENT_ENDPOINTS;

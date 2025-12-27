@@ -15,6 +15,7 @@ const AssignmentDetails = () => {
   const [assignment, setAssignment] = useState(null);
   const [submissions, setSubmissions] = useState([]);
   const [submissionOpen, setSubmissionOpen] = useState(false);
+  const [markComplletedOpen, setMarkComplletedOpen] = useState(false);
   const [selectedSubmission, setSelectedSubmission] = useState({});
 
   useEffect(() => {
@@ -53,6 +54,21 @@ const AssignmentDetails = () => {
     }
   };
 
+  const handleMarkCompleted = async () => {
+    try {
+      const res = await callApi({
+        url: ASSIGNMENT_ENDPOINTS.COMPLETE(selectedSubmission._id),
+        method: "patch",
+      });
+
+      setAssignment((prev) => ({ ...prev, status: "completed" }));
+      showSuccess(res.message);
+      setMarkComplletedOpen(false);
+    } catch (err) {
+      showError(err);
+    }
+  };
+
   if (loading) {
     return (
       <div className="p-6 text-center text-sm text-gray-500">
@@ -70,7 +86,14 @@ const AssignmentDetails = () => {
 
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6">
-      <AssignmentCard assignment={assignment} showActions={false} />
+      <AssignmentCard
+        assignment={assignment}
+        showActions={false}
+        onComplete={(val) => {
+          setSelectedSubmission(val);
+          setMarkComplletedOpen(true);
+        }}
+      />
 
       <div className="max-w-4xl mx-auto">
         <h2 className="text-lg font-semibold text-gray-800 mb-4">
@@ -101,6 +124,14 @@ const AssignmentDetails = () => {
         confirmText="Review"
         onClose={() => setSubmissionOpen(false)}
         onConfirm={handleMarkReviewed}
+      />
+      <ConfirmModal
+        isOpen={markComplletedOpen}
+        title="Mark As Completed"
+        message="Do You Want To Mark This Assignment As Completed?"
+        confirmText="Complete"
+        onClose={() => setMarkComplletedOpen(false)}
+        onConfirm={handleMarkCompleted}
       />
     </div>
   );

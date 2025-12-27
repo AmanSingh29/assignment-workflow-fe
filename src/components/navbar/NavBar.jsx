@@ -3,16 +3,25 @@ import { Menu, X, Home, ClipboardList } from "lucide-react";
 import NavItem from "./NavItem";
 import UserMenu from "./UserMenu";
 import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogoClick = () => {
+    navigate("/");
+  };
 
   return (
     <nav className="bg-white border-b shadow-sm">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <div className="flex items-center gap-2 text-indigo-600 font-bold text-lg">
+          <div
+            onClick={handleLogoClick}
+            className="flex cursor-pointer items-center gap-2 text-indigo-600 font-bold text-lg"
+          >
             <ClipboardList size={22} />
             AssignmentFlow
           </div>
